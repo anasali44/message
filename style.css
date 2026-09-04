@@ -1,0 +1,168 @@
+:root {
+  --ink: #1b1f23;
+  --paper: #f6f4ef;
+  --line: #d8d3c7;
+  --accent: #2f6f5e;
+  --accent-soft: #e4efe9;
+  --bubble-mine: #2f6f5e;
+  --bubble-theirs: #ffffff;
+}
+* { box-sizing: border-box; }
+html, body {
+  height: 100%;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- Auth card ---------- */
+.card {
+  background: white;
+  width: 100%;
+  max-width: 380px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 28px;
+  margin: 16px;
+}
+.card h1 { font-size: 20px; margin: 0 0 4px; }
+.card p.sub { margin: 0 0 20px; color: #6b6459; font-size: 14px; }
+input {
+  width: 100%;
+  padding: 11px 12px;
+  margin-bottom: 10px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  font-size: 15px;
+  font-family: inherit;
+}
+input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+button {
+  width: 100%;
+  padding: 11px;
+  border: none;
+  border-radius: 7px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+.btn-primary { background: var(--accent); color: white; margin-bottom: 8px; }
+.btn-secondary { background: var(--accent-soft); color: var(--accent); }
+.error { color: #b3413c; font-size: 13px; margin: -4px 0 10px; min-height: 16px; }
+
+/* ---------- App shell ---------- */
+#app {
+  display: none;
+  width: 100%;
+  max-width: 720px;
+  height: 92vh;
+  height: 92dvh;
+  padding: 16px;
+}
+.layout {
+  display: flex;
+  height: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  background: white;
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+  width: 230px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  background: #faf9f6;
+}
+.sidebar-header { padding: 16px; border-bottom: 1px solid var(--line); }
+.sidebar-header .me { font-weight: 600; font-size: 14px; }
+.sidebar-header .signout {
+  background: none; border: none; color: #6b6459; font-size: 12px;
+  text-decoration: underline; padding: 4px 0; width: auto; margin-top: 6px; cursor: pointer;
+}
+.find-box { padding: 12px; border-bottom: 1px solid var(--line); }
+.find-box input { margin: 0; font-size: 14px; padding: 9px 10px; }
+
+/* ---------- Chat pane ---------- */
+.chat-pane { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+.chat-header {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--line);
+  font-weight: 600;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.chat-header.empty { color: #a39c8f; font-weight: 400; }
+.back-btn {
+  display: none;
+  width: auto;
+  padding: 4px 8px;
+  background: none;
+  color: var(--ink);
+  font-size: 18px;
+  line-height: 1;
+  margin: -4px 0;
+}
+#messages {
+  flex: 1;
+  padding: 18px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.msg {
+  padding: 9px 13px;
+  border-radius: 14px;
+  max-width: 72%;
+  font-size: 14px;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+.mine { align-self: flex-end; background: var(--bubble-mine); color: white; border-bottom-right-radius: 4px; }
+.theirs { align-self: flex-start; background: #f0eee8; border-bottom-left-radius: 4px; }
+form#msg-form {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid var(--line);
+}
+form#msg-form input { margin: 0; }
+form#msg-form button { width: auto; padding: 0 20px; }
+
+/* ---------- Mobile: one screen at a time, full-screen chat ---------- */
+@media (max-width: 700px) {
+  body { align-items: stretch; justify-content: stretch; }
+  #app {
+    display: none; /* toggled to flex/block by JS after login */
+    width: 100%;
+    max-width: none;
+    height: 100dvh;
+    padding: 0;
+  }
+  .layout {
+    border: none;
+    border-radius: 0;
+    height: 100%;
+  }
+  .sidebar { width: 100%; }
+  .chat-pane { display: none; width: 100%; }
+  .back-btn { display: inline-block; }
+
+  /* When a conversation is open, hide the sidebar and show chat full-screen */
+  #app.conversation-open .sidebar { display: none; }
+  #app.conversation-open .chat-pane { display: flex; }
+}
